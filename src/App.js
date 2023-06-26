@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+const initialBooks = [
+  {
+    id: 2571547,
+    name: "",
+    author: "",
+    url: "",
+    isFavorite: true,
+  },
+  {
+    id: 1261561,
+    name: "",
+    author: "",
+    url: "",
+    isFavorite: false,
+  },
+];
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Header />
+      <BookList />
     </div>
+  );
+}
+
+function Header() {
+  return (
+    <header className="header">
+      <h1>Book Tracker</h1>
+      <button className="button">Log new book</button>
+    </header>
+  );
+}
+
+function BookList() {
+  return (
+    <main>
+      <p>I am a book</p>
+    </main>
   );
 }
 
