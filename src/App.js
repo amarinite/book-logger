@@ -66,17 +66,53 @@ function Header({ onLogModal }) {
 }
 
 function LogModal({ onLogModal, onLogBook }) {
+  const [name, setName] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
+  const [genres, setGenres] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const id = crypto.randomUUID();
+    const newBook = {
+      id,
+      name,
+      author,
+      url: "",
+      genres: genres,
+      started: "12 Jun",
+      finished: "24 Jun",
+    };
+
+    console.log(newBook);
+
+    // check this https://www.pluralsight.com/guides/handling-multiple-inputs-with-single-onchange-handler-react
+
+    // onLogBook(newBook);
+  }
+
   return (
     <>
-      <form className="log-form" onSubmit={onLogBook}>
+      <form className="log-form" onSubmit={handleSubmit}>
         <h2>Log a new book!</h2>
         <div>
           <label>Title</label>
-          <input type="text" placeholder="Enter a title..." />
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter a title..."
+          />
         </div>
         <div>
           <label>Author</label>
-          <input type="text" placeholder="Enter a title..." />
+          <input
+            type="text"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            placeholder="Enter a title..."
+          />
         </div>
         <fieldset>
           <legend>
