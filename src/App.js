@@ -38,7 +38,8 @@ function App() {
     setShowAddModal((show) => !show);
   }
 
-  function handleLogBook() {
+  function handleLogBook(loggedBook) {
+    setBooks([...books, loggedBook]);
     setShowAddModal((show) => !show);
   }
 
@@ -69,7 +70,7 @@ function LogModal({ onLogModal, onLogBook }) {
   const [name, setName] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
-  const [genres, setGenres] = useState("");
+  const [genres, setGenres] = useState([]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -79,17 +80,27 @@ function LogModal({ onLogModal, onLogBook }) {
       id,
       name,
       author,
-      url: "",
-      genres: genres,
+      url,
+      genres,
       started: "12 Jun",
       finished: "24 Jun",
     };
 
     console.log(newBook);
 
-    // check this https://www.pluralsight.com/guides/handling-multiple-inputs-with-single-onchange-handler-react
+    onLogBook(newBook);
+  }
 
-    // onLogBook(newBook);
+  function handleChange(e) {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setGenres((prevGenres) => [...prevGenres, value]);
+    } else {
+      setGenres((prevGenres) => {
+        return [...prevGenres.filter((g) => g !== value)];
+      });
+    }
   }
 
   return (
@@ -114,25 +125,41 @@ function LogModal({ onLogModal, onLogBook }) {
             placeholder="Enter a title..."
           />
         </div>
+        <div>
+          <label>Cover image</label>
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Enter an image url..."
+          />
+        </div>
         <fieldset>
+          {/* for later https://www.freecodecamp.org/news/how-to-work-with-multiple-checkboxes-in-react/ */}
           <legend>
             Genres <span>(please select a maximum of 3)</span>
           </legend>
-          <input type="checkbox" />
-          <label>Fantasy</label>
-          <input type="checkbox" />
-          <label>Horror</label>
-          <input type="checkbox" />
-          <label>Sci-fi</label>
-          <input type="checkbox" />
-          <label>Contemporary</label>
-          <input type="checkbox" />
-          <label>Non-fiction</label>
-          <input type="checkbox" />
-          <label>Classic</label>
-          <input type="checkbox" />
-          <label>Historic</label>
+          <input type="checkbox" value="fantasy" onChange={handleChange} />
+          Fantasy
+          <input type="checkbox" value="horror" onChange={handleChange} />
+          Horror
+          <input type="checkbox" value="sci-fi" onChange={handleChange} />
+          Sci-fi
+          <input type="checkbox" value="contemporary" onChange={handleChange} />
+          Contemporary
+          <input type="checkbox" value="non-fiction" onChange={handleChange} />
+          Non-fiction
+          <input type="checkbox" value="classic" onChange={handleChange} />
+          Classic
+          <input type="checkbox" value="historic" onChange={handleChange} />
+          Historic
         </fieldset>
+        <div>
+          <label>Started</label>
+          <input type="date" />
+          <label>Finished</label>
+          <input type="date" />
+        </div>
         <button className="button">Log it!</button>
       </form>
       <div className="log-form-overlay" onClick={onLogModal}></div>
