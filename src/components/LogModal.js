@@ -6,7 +6,7 @@ export default function LogModal({ onLogModal, onLogBook }) {
     name: "",
     author: "",
     url: "",
-    genres: ["horror", "sci-fi"],
+    genres: [],
     dateStarted: "",
     dateFinished: "",
   });
@@ -52,6 +52,17 @@ export default function LogModal({ onLogModal, onLogBook }) {
     },
   ];
 
+  const possibleGenres = [
+    "fantasy",
+    "sci-fi",
+    "contemporary",
+    "horror",
+    "classic",
+    "non-fiction",
+    "historic",
+    "poetry",
+  ];
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -65,23 +76,24 @@ export default function LogModal({ onLogModal, onLogBook }) {
     onLogBook(newBook);
   }
 
-  //   function handleChange(e) {
-  //     const { value, checked } = e.target;
-
-  //     if (checked) {
-  //       setGenres((prevGenres) => [...prevGenres, value]);
-  //     } else {
-  //       setGenres((prevGenres) => {
-  //         return [...prevGenres.filter((g) => g !== value)];
-  //       });
-  //     }
-  //   }
-
   function onChange(e) {
     setValues({ ...values, [e.target.name]: e.target.value });
   }
 
-  function onChangeChecked(e) {}
+  function onChangeChecked(e) {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setValues({ ...values, genres: [...values.genres, value] });
+      console.log(values);
+    } else {
+      setValues({
+        ...values,
+        genres: [...values.genres.filter((g) => g !== value)],
+      });
+      console.log(values);
+    }
+  }
 
   return (
     <>
@@ -95,26 +107,20 @@ export default function LogModal({ onLogModal, onLogBook }) {
             onChange={onChange}
           />
         ))}
-        {/* <fieldset>
-          {for later https://www.freecodecamp.org/news/how-to-work-with-multiple-checkboxes-in-react/}
+        <fieldset>
           <legend>
             Genres <span>(please select a maximum of 3)</span>
           </legend>
-          <input type="checkbox" value="fantasy" onChange={handleChange} />
-          Fantasy
-          <input type="checkbox" value="horror" onChange={handleChange} />
-          Horror
-          <input type="checkbox" value="sci-fi" onChange={handleChange} />
-          Sci-fi
-          <input type="checkbox" value="contemporary" onChange={handleChange} />
-          Contemporary
-          <input type="checkbox" value="non-fiction" onChange={handleChange} />
-          Non-fiction
-          <input type="checkbox" value="classic" onChange={handleChange} />
-          Classic
-          <input type="checkbox" value="historic" onChange={handleChange} />
-          Historic
-        </fieldset> */}
+          {possibleGenres.map((genre) => (
+            <FormInput
+              type="checkbox"
+              genre={genre}
+              key={genre}
+              onChange={onChangeChecked}
+            />
+          ))}
+        </fieldset>
+
         <button className="button">Log it!</button>
       </form>
       <div className="log-form-overlay" onClick={onLogModal}></div>
